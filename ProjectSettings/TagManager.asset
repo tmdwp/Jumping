@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Item
   - SubCamera
+  - Ground
   layers:
   - Default
   - TransparentFX

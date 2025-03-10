@@ -2,24 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum Way
+public enum Way
 {
-    TopDown,
-    LeftRight
+    TD, //TopDown
+    LR, //LeftRight
+    FB //FrontBack
 }
 
-public class MovingBlock : MonoBehaviour
+[CreateAssetMenu(fileName = "MovingBlock", menuName = "New MovingBlcok")]
+public class MovingBlock : ScriptableObject
 {
+    [Header("Info")]
     Vector3 startPositon;
-    // Start is called before the first frame update
-    void Start()
-    {
-        startPositon = transform.position;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public float speed;
+    public Way way;
 }
