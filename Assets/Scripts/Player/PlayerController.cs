@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 curMovementInput;
     public float jumpPower;
     public LayerMask groundLayerMask;
+    public LayerMask downLayerMask;
+    private Vector3 savePoint;
+    public float upTime;
 
     [Header("Look")]
     public Transform cameraContainer;
@@ -69,6 +73,7 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
             GetComponent<Rigidbody>().AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            savePoint = transform.position;
         }
     }
 
@@ -114,5 +119,34 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         canLook = !toggle;
+    }
+
+    public void SpeedUp(float speed)
+    {
+        moveSpeed += speed;
+        SpeedDown();
+    }
+
+    IEnumerator SpeedDown()
+    {
+        yield return new WaitForSeconds(upTime);
+        moveSpeed -= moveSpeed;
+    }
+
+    public void JumpUp(float jmp)
+    {
+        jumpPower += jmp;
+        JumpDown();
+    }
+
+    IEnumerator JumpDown() 
+    {
+        yield return new WaitForSeconds(upTime);
+        jumpPower -= jumpPower;
+    }
+
+    public void GoToSave()
+    {
+        CharacterManager.Instance.Player.transform.position = savePoint;
     }
 }
