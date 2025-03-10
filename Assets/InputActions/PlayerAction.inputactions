@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "ChangeCamera",
                     "type": "Button",
                     "id": "85dca4b3-9dc8-4d34-9f5e-e8cabfc4717b",
                     "expectedControlType": "Button",
@@ -143,11 +143,11 @@
                 {
                     "name": "",
                     "id": "a556fa8b-1e25-454d-8727-8078f804514a",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "ChangeCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
