@@ -24,7 +24,8 @@ public class PlayerCondition : MonoBehaviour, IDamagable
 
         if (health.curValue == 0f)
         {
-            Die();
+            health.maxValue = 10f;
+            health.curValue = 10f;
         }
     }
 

@@ -16,7 +16,8 @@ MonoBehaviour:
   description: "\uAD49\uC7A5\uD788 \uC218\uC0C1\uD558\uB2E4. \uB9C8\uC2DC\uBA74 \uB192\uAC8C
     \uC810\uD504\uD560 \uC218 \uC788\uB2E4."
   type: 2
+  dropPrefab: {fileID: 3112047980952149493, guid: 987996a1fc6b2cb49ba811e13a15c0c2, type: 3}
   consumables:
   - type: 3
-    value: 200
+    value: 150
   equipPrefab: {fileID: 0}

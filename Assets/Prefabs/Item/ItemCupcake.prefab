@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4392333013579719662}
   - component: {fileID: 5519761601915924244}
   - component: {fileID: 1079515963552503982}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ItemCupcake
   m_TagString: Untagged
   m_Icon: {fileID: 0}

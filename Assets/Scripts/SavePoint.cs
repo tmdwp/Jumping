@@ -28,7 +28,6 @@ public class SavePoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             CharacterManager.Instance.Player.controller.GetSavePoint(savePosition);
-            Debug.Log(savePosition);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.InputSystem;
+//using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,11 +12,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 curMovementInput;
     public float jumpPower;
     public LayerMask groundLayerMask;
-    public LayerMask downLayerMask;
     private Vector3 savePoint;
-    public float upTime;
+    public float upTime = 5f;
     public float moveStamina = 2f;
     private bool checkMove;
+    public float jumpStamina = 5f;
+    private bool isBuff = false;
 
     [Header("Look")]
     public Transform cameraContainer;
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public bool canLook = true;
+
 
     private Player player;
     private Rigidbody _rigidbody;
@@ -80,6 +83,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
+            player.condition.UseStamina(jumpStamina);
             GetComponent<Rigidbody>().AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
         }
     }
@@ -139,26 +143,36 @@ public class PlayerController : MonoBehaviour
     }
     public void SpeedUp(float speed)
     {
-        moveSpeed += speed;
-        SpeedDown();
+        if (!isBuff)
+        {
+            isBuff = true;
+            moveSpeed += speed;
+            StartCoroutine(SpeedDown(speed));
+        }
     }
 
-    IEnumerator SpeedDown()
+    IEnumerator SpeedDown(float speed)
     {
         yield return new WaitForSeconds(upTime);
-        moveSpeed -= moveSpeed;
+        moveSpeed -= speed;
+        isBuff = false;
     }
 
     public void JumpUp(float jmp)
     {
-        jumpPower += jmp;
-        JumpDown();
+        if (!isBuff)
+        {
+            isBuff = true;
+            jumpPower += jmp;
+            StartCoroutine(JumpDown(jmp));
+        }
     }
 
-    IEnumerator JumpDown() 
+    IEnumerator JumpDown(float jmp) 
     {
         yield return new WaitForSeconds(upTime);
-        jumpPower -= jumpPower;
+        jumpPower -= jmp;
+        isBuff = false;
     }
 
 
