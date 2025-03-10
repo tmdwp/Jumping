@@ -31,6 +31,7 @@ public class PlayerCondition : MonoBehaviour, IDamagable
     public void Die()
     {
         Debug.Log("Die!");
+        Time.timeScale = 0f;
     }
 
     public void Heal(float amount)
