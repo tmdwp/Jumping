@@ -6,8 +6,10 @@ using UnityEngine;
 public class MoveBlock : MonoBehaviour
 {
     public MovingBlock setting;
-    private Vector3 setMove;
+    public Vector3 setMove;
+    Vector3 move;
     Rigidbody body;
+
     void Start()
     {
         body = GetComponent<Rigidbody>();
@@ -33,7 +35,8 @@ public class MoveBlock : MonoBehaviour
 
     void Move()
     {
-        body.velocity = setMove * setting.speed;
+        move = setMove * setting.speed * Time.deltaTime;
+        body.position += move;
     }
 
     private void OnTriggerEnter(Collider other)
