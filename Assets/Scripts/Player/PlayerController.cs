@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask downLayerMask;
     private Vector3 savePoint;
     public float upTime;
+    public float moveStamina = 2f;
+    private bool checkMove;
 
     [Header("Look")]
     public Transform cameraContainer;
@@ -26,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public bool canLook = true;
 
+    private Player player;
     private Rigidbody _rigidbody;
 
     private void Awake()
@@ -35,7 +39,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        player = CharacterManager.Instance.Player;
         Cursor.lockState = CursorLockMode.Locked;
+        InvokeRepeating("UseStamian", 0, 0.5f);
     }
 
     private void FixedUpdate()
@@ -60,11 +66,13 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
+            checkMove = true;
             curMovementInput = context.ReadValue<Vector2>();
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             curMovementInput = Vector2.zero;
+            checkMove = false;
         }
     }
 
@@ -80,10 +88,10 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-        dir *= moveSpeed;
-        dir.y = GetComponent<Rigidbody>().velocity.y;
+            dir *= moveSpeed;
+            dir.y = GetComponent<Rigidbody>().velocity.y;
 
-        GetComponent<Rigidbody>().velocity = dir;
+            GetComponent<Rigidbody>().velocity = dir;
     }
 
     void CameraLook()
@@ -97,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
+        RaycastHit hit;
         Ray[] rays = new Ray[4]
         {
             new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
@@ -107,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < rays.Length; i++)
         {
-            if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
+            if (Physics.Raycast(rays[i],out hit, 0.1f, groundLayerMask))
             {   
                 return true;
             }
@@ -121,6 +130,14 @@ public class PlayerController : MonoBehaviour
         canLook = !toggle;
     }
 
+    void UseStamian()
+    {
+
+        if (checkMove)
+        {
+            player.condition.UseStamina(moveSpeed);
+        }
+    }
     public void SpeedUp(float speed)
     {
         moveSpeed += speed;
@@ -145,8 +162,14 @@ public class PlayerController : MonoBehaviour
         jumpPower -= jumpPower;
     }
 
+
+    public void GetSavePoint(Vector3 point)
+    {
+        savePoint = point;
+    }
     public void GoToSave()
     {
-        CharacterManager.Instance.Player.transform.position = savePoint;
+        player.transform.position = savePoint;
+        Debug.Log(player.transform.position);
     }
 }

@@ -55,4 +55,11 @@ public class PlayerCondition : MonoBehaviour, IDamagable
         stamina.Subtract(amount);
         return true;
     }
+
+    public bool CheckUseStamina(float amount)
+    {
+        if(amount < stamina.curValue)
+            return true;
+        return false;
+    }
 }

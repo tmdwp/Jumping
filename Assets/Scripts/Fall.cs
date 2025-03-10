@@ -14,5 +14,9 @@ public class Fall : MonoBehaviour
             CharacterManager.Instance.Player.condition.TakePhysicalDamage(damage);
             CharacterManager.Instance.Player.controller.GoToSave();
         }
+        else if (other.CompareTag("Item"))
+        {
+            Destroy(other.gameObject);
+        }
     }
 }
